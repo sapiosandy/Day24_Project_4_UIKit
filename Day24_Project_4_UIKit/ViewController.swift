@@ -11,26 +11,38 @@ import WebKit
 class ViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
+    var progressView: UIProgressView!
     
     override func loadView() {
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(openTapped))
+        
         let url = URL(string: "https://www.radiohead.com")!
         webView.load(URLRequest(url:url))
         webView.allowsBackForwardNavigationGestures = true
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(openTapped))
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView.sizeToFit()
+        let progressButton = UIBarButtonItem(customView: progressView)
+        
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        
+        toolbarItems = [progressButton, spacer, refresh]
+        navigationController?.isToolbarHidden = false
     }
     
     @objc func openTapped() {
         let ac = UIAlertController(title: "Open page...", message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "radiohead.com", style: .default, handler: openPage))
         ac.addAction(UIAlertAction(title: "pg-lang.com", style: .default, handler: openPage))
+        ac.addAction(UIAlertAction(title: "hstyles.co.uk", style: .default, handler: openPage))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         present(ac, animated: true)
