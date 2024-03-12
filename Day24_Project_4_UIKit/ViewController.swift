@@ -12,7 +12,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     var progressView: UIProgressView!
-    var websites = ["radiohead.com", "pg-lang.com", "hstyles.co.uk"]
+    var websites = ["radiohead.com", "pg-lang.com", "apple.com", "hstyles.co.uk"]
     
     override func loadView() {
         webView = WKWebView()
@@ -36,8 +36,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: webView, action: #selector(webView.goBack))
+        let forwardButton = UIBarButtonItem(image: UIImage(systemName: "chevron.forward"), style: .plain, target: webView, action: #selector(webView.goForward))
         
-        toolbarItems = [progressButton, spacer, refresh]
+        toolbarItems = [backButton, forwardButton, spacer, progressButton, spacer, refresh]
         navigationController?.isToolbarHidden = false
     }
     
