@@ -46,6 +46,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         for website in websites {
             ac.addAction(UIAlertAction(title: website, style: .default, handler: openPage))
         }
+        ac.addAction(UIAlertAction(title: "hackingwithswift.com", style: .default, handler: openPage))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         present(ac, animated: true)
@@ -76,6 +77,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     return
                 }
             }
+            let denied = UIAlertController(title: "Access Denied", message: "This site is blocked", preferredStyle: .alert)
+            denied.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
+                       present(denied, animated: true)
+
         }
         decisionHandler(.cancel)
     }
